@@ -5,6 +5,8 @@ import spock.lang.Unroll
 
 import static de.nielsfalk.rockPaperScissors.Figure.*
 import static de.nielsfalk.rockPaperScissors.Figure.DefendResult.successful
+import static de.nielsfalk.rockPaperScissors.Figure.DefendResult.tie
+import static de.nielsfalk.rockPaperScissors.Figure.DefendResult.unsuccessful
 
 /**
  * @author Niels Falk
@@ -12,7 +14,7 @@ import static de.nielsfalk.rockPaperScissors.Figure.DefendResult.successful
 class FigureSpec extends Specification {
 
     @Unroll
-    def "#first beats #second"() {
+    def "#first defending #second is #expectedResult"() {
         expect:
         first.defend(second) == expectedResult
 
@@ -21,5 +23,11 @@ class FigureSpec extends Specification {
         rock     | scissors | successful
         paper    | rock     | successful
         scissors | paper    | successful
+        rock     | rock     | tie
+        paper    | paper    | tie
+        scissors | scissors | tie
+        rock     | paper    | unsuccessful
+        paper    | scissors | unsuccessful
+        scissors | rock     | unsuccessful
     }
 }

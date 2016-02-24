@@ -2,6 +2,7 @@ package de.nielsfalk.rockPaperScissors;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import static de.nielsfalk.rockPaperScissors.Figure.DefendResult.*;
 import static java.util.Collections.unmodifiableMap;
@@ -23,6 +24,10 @@ public enum Figure {
             return successful;
         }
         return this == other ? tie : unsuccessful;
+    }
+
+    public static Figure random() {
+        return values()[new Random().nextInt(values().length)];
     }
 
     public enum DefendResult {

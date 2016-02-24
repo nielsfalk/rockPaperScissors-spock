@@ -1,12 +1,11 @@
 package de.nielsfalk.rockPaperScissors
 
+import de.nielsfalk.rockPaperScissors.Player.Strategy
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import static de.nielsfalk.rockPaperScissors.Game.TIE_RESULT_KEY
-import static de.nielsfalk.rockPaperScissors.Player.ALWAYS_PAPER
-import static de.nielsfalk.rockPaperScissors.Player.ALWAYS_SCISSORS
 import static java.util.Optional.of
 
 /**
@@ -14,11 +13,14 @@ import static java.util.Optional.of
  */
 class GameSpec extends Specification {
     @Shared
-    def another_always_scissors = new Player("always scissors player", ALWAYS_SCISSORS.strategy)
+    def alwaysScissors = new Player("always scissors player", Strategy.ALWAYS_SCISSORS),
+        another_always_scissors = new Player("another always scissors player", alwaysScissors.strategy),
+        alwaysPaper =new Player("always paper player", Strategy.ALWAYS_PAPER);
+
 
     def "result message"() {
         given:
-        def game = new Game(ALWAYS_PAPER, ALWAYS_SCISSORS)
+        def game = new Game(alwaysPaper, alwaysScissors)
 
         when:
         def resultMessage = game.resultMessage
@@ -44,10 +46,10 @@ class GameSpec extends Specification {
         game.result.get(TIE_RESULT_KEY) == expectedTieCount
 
         where:
-        first           | second                  | expectedResult      | expectedFirstWinCount | expectedSecondWinCount | expectedTieCount
-        ALWAYS_PAPER    | ALWAYS_SCISSORS         | of(ALWAYS_SCISSORS) | 0                     | 1                      | 0
-        ALWAYS_SCISSORS | another_always_scissors | TIE_RESULT_KEY      | 0                     | 0                      | 1
-        ALWAYS_SCISSORS | ALWAYS_PAPER            | of(ALWAYS_SCISSORS) | 1                     | 0                      | 0
+        first          | second                  | expectedResult     | expectedFirstWinCount | expectedSecondWinCount | expectedTieCount
+        alwaysPaper    | alwaysScissors          | of(alwaysScissors) | 0                     | 1                      | 0
+        alwaysScissors | another_always_scissors | TIE_RESULT_KEY     | 0                     | 0                      | 1
+        alwaysScissors | alwaysPaper             | of(alwaysScissors) | 1                     | 0                      | 0
     }
 }
 

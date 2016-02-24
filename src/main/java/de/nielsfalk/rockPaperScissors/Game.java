@@ -1,15 +1,17 @@
 package de.nielsfalk.rockPaperScissors;
 
 import de.nielsfalk.rockPaperScissors.Figure.DefendResult;
+import de.nielsfalk.rockPaperScissors.Player.Strategy;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
+import static java.lang.System.out;
+import static java.util.Optional.*;
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.IntStream.range;
 
 /**
  * @author Niels Falk
@@ -23,8 +25,8 @@ public class Game {
     public Game(Player first, Player second) {
         this.first = first;
         this.second = second;
-        Stream<Optional<Player>> resultFile = Stream.of(of(first), of(second), TIE_RESULT_KEY);
-        result = resultFile.collect(Collectors.toMap(optional -> optional, player1 -> 0));
+        Optional<Player>[] resultKeys = new Optional[]{of(first), of(second), TIE_RESULT_KEY};
+        result = Stream.of(resultKeys).collect(Collectors.toMap(optional -> optional, optional -> 0));
     }
 
     public String getResultMessage() {
@@ -57,5 +59,13 @@ public class Game {
             default:
                 return TIE_RESULT_KEY;
         }
+    }
+
+    public static void main(String[] args) {
+        Game game = new Game(
+                new Player("always paper player", Strategy.ALWAYS_PAPER),
+                new Player("random player", Strategy.RANDOM));
+        range(0, 100).forEach(i -> game.playRound());
+        out.println(game.getResultMessage());
     }
 }

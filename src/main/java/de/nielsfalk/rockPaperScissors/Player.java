@@ -9,8 +9,12 @@ import static de.nielsfalk.rockPaperScissors.Figure.scissors;
  * @author Niels Falk
  */
 public class Player {
-    private static final Player ALWAYS_PAPER = new Player("always paper player", () -> paper);
-    private static final Player ALWAYS_SCISSORS = new Player("always scissors player", () -> scissors);
+    static final Player DEPRECATEDALWAYS_PAPER = new Player("always paper player", Strategy.ALWAYS_PAPER);
+
+    private static Player alwaysPaper(String name, Supplier<Figure> alp) {
+        return new Player(name, alp);
+    }
+
     private final Supplier<Figure> strategy;
     private final String name;
 
@@ -31,5 +35,11 @@ public class Player {
     @Override
     public String toString() {
         return name;
+    }
+
+    static final class Strategy {
+        static final Supplier<Figure> ALWAYS_PAPER = () -> paper;
+        static final Supplier<Figure> RANDOM = Figure::random;
+        private static final Supplier<Figure> ALWAYS_SCISSORS = () -> scissors;
     }
 }

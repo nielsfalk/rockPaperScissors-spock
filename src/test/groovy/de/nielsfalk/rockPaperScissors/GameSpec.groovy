@@ -28,8 +28,8 @@ class GameSpec extends Specification {
         then:
         resultMessage.size() == 3
         resultMessage.contains "0 rounds are tie"
-        resultMessage.contains "always scissors player won 0 rounds"
-        resultMessage.contains "always paper player won 0 rounds"
+        resultMessage.contains "$alwaysScissors won 0 rounds"
+        resultMessage.contains "$alwaysPaper won 0 rounds"
     }
 
     def "result message has correct singular"() {
@@ -45,7 +45,7 @@ class GameSpec extends Specification {
 
         where:
         game                                              | expectedSingular
-        new Game(alwaysPaper, alwaysScissors)             | "always scissors player won 1 round"
+        new Game(alwaysPaper, alwaysScissors)             | "$alwaysScissors won 1 round"
         new Game(alwaysScissors, another_always_scissors) | "1 round is tie"
     }
 

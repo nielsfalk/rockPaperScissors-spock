@@ -16,12 +16,12 @@ class Player {
         this.name = name;
     }
 
-    public Figure chooseFigure() {
+    Figure chooseFigure() {
         return strategy.get();
     }
 
 
-    public String getName() {
+    String getName() {
         return name;
     }
 

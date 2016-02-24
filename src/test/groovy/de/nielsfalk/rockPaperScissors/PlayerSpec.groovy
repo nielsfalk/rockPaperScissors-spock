@@ -2,6 +2,7 @@ package de.nielsfalk.rockPaperScissors
 
 import spock.lang.Shared
 import spock.lang.Specification
+import de.nielsfalk.rockPaperScissors.Player.Strategy
 
 import static de.nielsfalk.rockPaperScissors.Figure.paper
 
@@ -10,15 +11,10 @@ import static de.nielsfalk.rockPaperScissors.Figure.paper
  */
 class PlayerSpec extends Specification {
     @Shared
-    def alwaysPaper = new Player("always paper player", Player.Strategy.ALWAYS_PAPER)
+    def alwaysPaper = new Player("always paper player", Strategy.ALWAYS_PAPER)
 
-    def "simple strategy"() {
+    def "player applies strategy"() {
         expect:
         alwaysPaper.chooseFigure() == paper
-    }
-
-    def "player has name"() {
-        expect:
-        alwaysPaper.name == "always paper player"
     }
 }

@@ -1,10 +1,11 @@
 package de.nielsfalk.rockPaperScissors
 
-import de.nielsfalk.rockPaperScissors.Player.Strategy
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static de.nielsfalk.rockPaperScissors.Figure.paper
+import static de.nielsfalk.rockPaperScissors.Figure.scissors
 import static java.util.Optional.of
 import static java.util.Optional.ofNullable
 
@@ -13,9 +14,9 @@ import static java.util.Optional.ofNullable
  */
 class GameSpec extends Specification {
     @Shared
-    def alwaysScissors = new Player("always scissors player", Strategy.ALWAYS_SCISSORS),
-        another_always_scissors = new Player("another always scissors player", alwaysScissors.strategy),
-        alwaysPaper = new Player("always paper player", Strategy.ALWAYS_PAPER);
+    Player alwaysScissors = Player.withConstantStrategy(scissors),
+        anotherAlwaysScissors = Player.withConstantStrategy(scissors),
+        alwaysPaper = Player.withConstantStrategy(paper);
 
 
     def "result message contain a line for tie and each player"() {
@@ -44,9 +45,9 @@ class GameSpec extends Specification {
         resultMessage.contains expectedSingular
 
         where:
-        game                                              | expectedSingular
-        new Game(alwaysPaper, alwaysScissors)             | "$alwaysScissors won 1 round"
-        new Game(alwaysScissors, another_always_scissors) | "1 round is tie"
+        game                                            | expectedSingular
+        new Game(alwaysPaper, alwaysScissors)           | "$alwaysScissors won 1 round"
+        new Game(alwaysScissors, anotherAlwaysScissors) | "1 round is tie"
     }
 
     @Unroll
@@ -64,10 +65,10 @@ class GameSpec extends Specification {
         game.result.get(Optional.empty()) == expectedTieCount
 
         where:
-        first          | second                  | expectedWinner | expectedFirstWinCount | expectedSecondWinCount | expectedTieCount
-        alwaysPaper    | alwaysScissors          | alwaysScissors | 0                     | 1                      | 0
-        alwaysScissors | another_always_scissors | null           | 0                     | 0                      | 1
-        alwaysScissors | alwaysPaper             | alwaysScissors | 1                     | 0                      | 0
+        first          | second                | expectedWinner | expectedFirstWinCount | expectedSecondWinCount | expectedTieCount
+        alwaysPaper    | alwaysScissors        | alwaysScissors | 0                     | 1                      | 0
+        alwaysScissors | anotherAlwaysScissors | null           | 0                     | 0                      | 1
+        alwaysScissors | alwaysPaper           | alwaysScissors | 1                     | 0                      | 0
     }
 }
 

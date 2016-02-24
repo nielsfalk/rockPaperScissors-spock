@@ -1,7 +1,6 @@
 package de.nielsfalk.rockPaperScissors;
 
 import de.nielsfalk.rockPaperScissors.Figure.DefendResult;
-import de.nielsfalk.rockPaperScissors.Player.Strategy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static de.nielsfalk.rockPaperScissors.Figure.DefendResult.*;
+import static de.nielsfalk.rockPaperScissors.Figure.paper;
 import static java.lang.System.out;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Optional.*;
@@ -69,8 +69,8 @@ class Game {
 
     public static void main(String[] args) {
         Game game = new Game(
-                new Player("always paper player", Strategy.ALWAYS_PAPER),
-                new Player("random player", Strategy.RANDOM));
+                Player.withConstantStrategy(paper),
+                new Player("random player", Figure::random));
         range(0, 100).forEach(i -> game.playRound());
         out.println(game.getResultMessage());
     }

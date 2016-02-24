@@ -19,7 +19,7 @@ public class Player {
         this.name = name;
     }
 
-    public Figure getChooseFigure() {
+    public Figure chooseFigure() {
         return strategy.get();
     }
 

@@ -31,7 +31,7 @@ class GameSpec extends Specification {
     }
 
     @Unroll
-    def "#expectedResult wins round (#first against #second) "() {
+    def "#expectedWinner wins round (#first against #second) "() {
         given:
         def game = new Game(first, second)
 
@@ -39,13 +39,13 @@ class GameSpec extends Specification {
         def winner = game.playRound()
 
         then:
-        winner == expectedResult
+        winner == expectedWinner
         game.result[of(first)] == expectedFirstWinCount
         game.result[of(second)] == expectedSecondWinCount
         game.result.get(Optional.empty()) == expectedTieCount
 
         where:
-        first          | second                  | expectedResult     | expectedFirstWinCount | expectedSecondWinCount | expectedTieCount
+        first          | second                  | expectedWinner     | expectedFirstWinCount | expectedSecondWinCount | expectedTieCount
         alwaysPaper    | alwaysScissors          | of(alwaysScissors) | 0                     | 1                      | 0
         alwaysScissors | another_always_scissors | Optional.empty()   | 0                     | 0                      | 1
         alwaysScissors | alwaysPaper             | of(alwaysScissors) | 1                     | 0                      | 0

@@ -1,17 +1,21 @@
 package de.nielsfalk.rockPaperScissors
 
+import spock.lang.Shared
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import static de.nielsfalk.rockPaperScissors.Game.TIE_RESULT_KEY
 import static de.nielsfalk.rockPaperScissors.Player.ALWAYS_PAPER
 import static de.nielsfalk.rockPaperScissors.Player.ALWAYS_SCISSORS
-import static java.util.Optional.empty
 import static java.util.Optional.of
 
 /**
  * @author Niels Falk
  */
 class GameSpec extends Specification {
+    @Shared
+    def another_always_scissors = new Player("always scissors player", ALWAYS_SCISSORS.strategy)
+
     def "result message"() {
         given:
         def game = new Game(ALWAYS_PAPER, ALWAYS_SCISSORS)
@@ -25,17 +29,26 @@ class GameSpec extends Specification {
         resultMessage.contains "always paper player won 0 rounds"
     }
 
-    def "play round"() {
+    @Unroll
+    def "#expectedResult wins round (#first against #second) "() {
         given:
-        def game = new Game(ALWAYS_PAPER, ALWAYS_SCISSORS)
+        def game = new Game(first, second)
 
         when:
         def winner = game.playRound()
 
         then:
-        winner == of(ALWAYS_SCISSORS)
-        game.result[of(ALWAYS_SCISSORS)] ==1
-        game.result[of(ALWAYS_PAPER)] ==0
-        game.result.get(Game.TIE_RESULT_KEY) ==0
+        winner == expectedResult
+        game.result[of(first)] == expectedFirstWinCount
+        game.result[of(second)] == expectedSecondWinCount
+        game.result.get(TIE_RESULT_KEY) == expectedTieCount
+
+        where:
+        first           | second                  | expectedResult      | expectedFirstWinCount | expectedSecondWinCount | expectedTieCount
+        ALWAYS_PAPER    | ALWAYS_SCISSORS         | of(ALWAYS_SCISSORS) | 0                     | 1                      | 0
+        ALWAYS_SCISSORS | another_always_scissors | TIE_RESULT_KEY      | 0                     | 0                      | 1
+        ALWAYS_SCISSORS | ALWAYS_PAPER            | of(ALWAYS_SCISSORS) | 1                     | 0                      | 0
     }
 }
+
+

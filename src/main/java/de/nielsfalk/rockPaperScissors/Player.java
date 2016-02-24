@@ -2,8 +2,7 @@ package de.nielsfalk.rockPaperScissors;
 
 import java.util.function.Supplier;
 
-import static de.nielsfalk.rockPaperScissors.Figure.paper;
-import static de.nielsfalk.rockPaperScissors.Figure.scissors;
+import static de.nielsfalk.rockPaperScissors.Figure.*;
 
 /**
  * @author Niels Falk

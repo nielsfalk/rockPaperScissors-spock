@@ -4,9 +4,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import static de.nielsfalk.rockPaperScissors.Figure.*
-import static de.nielsfalk.rockPaperScissors.Figure.DefendResult.successful
-import static de.nielsfalk.rockPaperScissors.Figure.DefendResult.tie
-import static de.nielsfalk.rockPaperScissors.Figure.DefendResult.unsuccessful
+import static de.nielsfalk.rockPaperScissors.Figure.DefendResult.*
 
 /**
  * @author Niels Falk

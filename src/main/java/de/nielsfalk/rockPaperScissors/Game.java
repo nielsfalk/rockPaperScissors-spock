@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static de.nielsfalk.rockPaperScissors.Figure.DefendResult.*;
 import static java.lang.System.out;
@@ -39,10 +40,15 @@ class Game {
 
     private String getResultMessage() {
         return result.entrySet().stream().map(entry -> {
-            if (entry.getKey().isPresent()) {
-                return entry.getKey().get().getName() + " won " + entry.getValue() + " rounds";
-            }
-            return entry.getValue() + " rounds are tie";
+            Integer count = entry.getValue();
+            boolean singular = count == 1;
+            String rounds = singular ? "round" : "rounds";
+            String is = singular ? "is" : "are";
+            Optional<Player> winner = entry.getKey();
+            Stream<String> message = winner.isPresent()
+                    ? Stream.of(winner.get().getName(), "won", count.toString(), rounds)
+                    : Stream.of(count.toString(), rounds, is, "tie");
+            return message.collect(joining(" "));
         }).collect(joining("\n"));
     }
 

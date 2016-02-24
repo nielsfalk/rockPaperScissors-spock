@@ -5,7 +5,6 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static de.nielsfalk.rockPaperScissors.Game.TIE_RESULT_KEY
 import static java.util.Optional.of
 
 /**
@@ -15,7 +14,7 @@ class GameSpec extends Specification {
     @Shared
     def alwaysScissors = new Player("always scissors player", Strategy.ALWAYS_SCISSORS),
         another_always_scissors = new Player("another always scissors player", alwaysScissors.strategy),
-        alwaysPaper =new Player("always paper player", Strategy.ALWAYS_PAPER);
+        alwaysPaper = new Player("always paper player", Strategy.ALWAYS_PAPER);
 
 
     def "result message"() {
@@ -43,12 +42,12 @@ class GameSpec extends Specification {
         winner == expectedResult
         game.result[of(first)] == expectedFirstWinCount
         game.result[of(second)] == expectedSecondWinCount
-        game.result.get(TIE_RESULT_KEY) == expectedTieCount
+        game.result.get(Optional.empty()) == expectedTieCount
 
         where:
         first          | second                  | expectedResult     | expectedFirstWinCount | expectedSecondWinCount | expectedTieCount
         alwaysPaper    | alwaysScissors          | of(alwaysScissors) | 0                     | 1                      | 0
-        alwaysScissors | another_always_scissors | TIE_RESULT_KEY     | 0                     | 0                      | 1
+        alwaysScissors | another_always_scissors | Optional.empty()   | 0                     | 0                      | 1
         alwaysScissors | alwaysPaper             | of(alwaysScissors) | 1                     | 0                      | 0
     }
 }

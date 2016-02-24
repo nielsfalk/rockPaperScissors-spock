@@ -18,13 +18,13 @@ import static java.util.stream.IntStream.range;
 /**
  * @author Niels Falk
  */
-public class Game {
+class Game {
     private final Map<Optional<Player>, Integer> result;
     private final Map<DefendResult, Optional<Player>> defendResultPlayerMap;
     private final Player first;
     private final Player second;
 
-    public Game(Player first, Player second) {
+    private Game(Player first, Player second) {
         defendResultPlayerMap = unmodifiableMap(new HashMap<DefendResult, Optional<Player>>() {
             {
                 put(successful, of(first));
@@ -37,7 +37,7 @@ public class Game {
         result = defendResultPlayerMap.values().stream().collect(Collectors.toMap(optional -> optional, optional -> 0));
     }
 
-    public String getResultMessage() {
+    private String getResultMessage() {
         return result.entrySet().stream().map(entry -> {
             if (entry.getKey().isPresent()) {
                 return entry.getKey().get().getName() + " won " + entry.getValue() + " rounds";
@@ -46,7 +46,7 @@ public class Game {
         }).collect(joining("\n"));
     }
 
-    public Optional<Player> playRound() {
+    private Optional<Player> playRound() {
         DefendResult defendResult = first.chooseFigure().defend(second.chooseFigure());
         Optional<Player> winner = getWinner(defendResult);
         incrementResultFor(winner);

@@ -17,7 +17,7 @@ class GameSpec extends Specification {
         alwaysPaper = new Player("always paper player", Strategy.ALWAYS_PAPER);
 
 
-    def "result message"() {
+    def "result message contain a line for tie and each player"() {
         given:
         def game = new Game(alwaysPaper, alwaysScissors)
 

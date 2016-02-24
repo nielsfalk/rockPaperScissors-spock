@@ -8,13 +8,7 @@ import static de.nielsfalk.rockPaperScissors.Figure.scissors;
 /**
  * @author Niels Falk
  */
-public class Player {
-    static final Player DEPRECATEDALWAYS_PAPER = new Player("always paper player", Strategy.ALWAYS_PAPER);
-
-    private static Player alwaysPaper(String name, Supplier<Figure> alp) {
-        return new Player(name, alp);
-    }
-
+class Player {
     private final Supplier<Figure> strategy;
     private final String name;
 
@@ -40,6 +34,7 @@ public class Player {
     static final class Strategy {
         static final Supplier<Figure> ALWAYS_PAPER = () -> paper;
         static final Supplier<Figure> RANDOM = Figure::random;
+        @SuppressWarnings("unused")
         private static final Supplier<Figure> ALWAYS_SCISSORS = () -> scissors;
     }
 }

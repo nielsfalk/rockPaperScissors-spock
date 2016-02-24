@@ -18,6 +18,7 @@ public enum Figure {
         put(rock, scissors);
         put(paper, rock);
     }});
+    private final static Random random = new Random();
 
     public DefendResult defend(Figure other) {
         if (rules.get(this) == other) {
@@ -27,7 +28,7 @@ public enum Figure {
     }
 
     public static Figure random() {
-        return values()[new Random().nextInt(values().length)];
+        return values()[random.nextInt(values().length)];
     }
 
     public enum DefendResult {
